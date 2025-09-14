@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResiVPN Hub™ - Dashboard</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .card {
+            background-color: #161b22;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid #21262d;
+        }
+        .result-box, .log-box {
+            background-color: #010409;
+            word-break: break-all;
+            font-family: 'Roboto Mono', monospace;
+            border: 1px solid #30363d;
+        }
+        .copy-btn {
+            background-color: #21262d;
+            transition: background-color 0.3s ease;
+            border: 1px solid #30363d;
+        }
+        .copy-btn:hover {
+            background-color: #30363d;
+        }
+        .graph-line {
+            stroke-width: 2;
+            fill: none;
+        }
+        .graph-area {
+            fill: url(#graph-gradient);
+            opacity: 0.6;
+        }
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #161b22;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0d1117;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+        #loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .spinner {
+            border: 8px solid #1f2a37;
+            border-top: 8px solid #3b82f6;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen p-4 md:p-8">
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner mb-4"></div>
+        <p class="text-xl font-semibold text-white">Loading Dashboard...</p>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="container mx-auto flex items-center justify-between p-4 mb-8 card rounded-xl hidden" id="main-content-wrapper">
+        <h1 class="text-2xl font-extrabold text-white">ResiVPN Hub™</h1>
+        <div class="flex space-x-4">
+            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors">Login</button>
+            <button class="bg-gray-700 text-gray-200 px-6 py-2 rounded-full font-bold hover:bg-gray-600 transition-colors">Sign Up</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content" class="flex-grow flex flex-col items-center p-4 hidden">
+        <div class="container mx-auto">
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-2 leading-tight">Lightning Fast Residential VPN Networks</h2>
+            <p class="text-sm sm:text-base md:text-xl text-gray-400 text-center mb-10">Our automated system for generating high-performance residential VPN API keys.</p>
+
+            <!-- Ad Banner -->
+            <div class="bg-yellow-900 bg-opacity-30 text-yellow-300 p-4 rounded-lg text-center font-semibold mb-8 border border-yellow-700">
+                🚀 Upgrade to our Premium plan for unlimited data and 24/7 technical support!
+            </div>
+
+            <!-- Main Dashboard Card -->
+            <div class="card rounded-2xl p-6 md:p-12 border border-gray-700 flex flex-col gap-6">
+                <!-- Dashboard Content -->
+                <div class="w-full flex flex-col gap-6">
+                    <h2 class="text-3xl font-extrabold text-white text-center mb-4">API Dashboard</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
+                        <!-- Performance Metrics -->
+                        <div class="card rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">Performance Metrics</h3>
+                            <div class="flex items-center justify-between">
+                                <div class="flex flex-col items-center">
+                                    <p class="text-2xl font-bold text-white"><span id="avg-latency">14</span> ms</p>
+                                    <p class="text-sm text-gray-400">Latency</p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <p class="text-2xl font-bold text-white"><span id="avg-throughput">1.2</span> Gbps</p>
+                                    <p class="text-sm text-gray-400">Throughput</p>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <p class="text-2xl font-bold text-white"><span id="active-sessions">5,782</span></p>
+                                    <p class="text-sm text-gray-400">Active Sessions</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Resource Usage -->
+                        <div class="card rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">Resource Usage</h3>
+                            <div class="flex justify-around items-center">
+                                <div class="relative flex flex-col items-center">
+                                    <div class="pie-chart" style="background: conic-gradient(#58a6ff 0% 75%, #30363d 75% 100%); width: 100px; height: 100px; border-radius: 50%;"></div>
+                                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold text-white">75%</span>
+                                    <p class="text-sm text-gray-400 mt-2">CPU Usage</p>
+                                </div>
+                                <div class="relative flex flex-col items-center">
+                                    <div class="pie-chart" style="background: conic-gradient(#26a245 0% 45%, #30363d 45% 100%); width: 100px; height: 100px; border-radius: 50%;"></div>
+                                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold text-white">45%</span>
+                                    <p class="text-sm text-gray-400 mt-2">Memory Usage</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Connection Stats -->
+                        <div class="card rounded-xl p-6">
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">Connection Stats</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-2xl font-bold text-white"><span id="connected-users">5,782</span></p>
+                                    <p class="text-sm text-gray-400">Connected Users</p>
+                                </div>
+                                <div>
+                                    <p class="text-2xl font-bold text-white"><span id="total-nodes">18,345</span></p>
+                                    <p class="text-sm text-gray-400">Available Nodes</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- API Status -->
+                        <div class="card rounded-xl p-6 flex flex-col justify-between">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-bold text-gray-300">API Gateway Status</h3>
+                                <div class="flex items-center space-x-2">
+                                    <span class="status-dot bg-green-500 rounded-full"></span>
+                                    <p class="text-lg font-bold text-green-400">Online</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-sm text-gray-400">Network: <span class="text-white">v2.1.3-stable</span></p>
+                                <p class="text-sm text-gray-400">Uptime: <span class="text-white">73 days</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Traffic Analysis -->
+                        <div class="card rounded-xl p-6 md:col-span-2">
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">Traffic Analysis</h3>
+                            <div class="relative w-full h-48">
+                                <svg id="traffic-graph" viewBox="0 0 400 150" class="w-full h-full">
+                                    <defs>
+                                        <linearGradient id="traffic-gradient" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.6"/>
+                                            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <path id="traffic-path" class="graph-line stroke-blue-400"></path>
+                                    <path id="traffic-area" class="graph-area" fill="url(#traffic-gradient)"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Log Section -->
+                        <div class="card rounded-xl p-6 md:col-span-2">
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">Operation Log</h3>
+                            <div class="log-box px-4 py-4 rounded-lg text-sm h-72 overflow-y-auto">
+                                <!-- Log messages will be added here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- API Generation Section -->
+                <div class="card rounded-xl p-6 space-y-6 mt-6">
+                    <h3 class="text-xl font-bold text-white border-b border-gray-700 pb-2 mb-4">Generate New API Key</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="flex flex-col items-start space-y-2">
+                            <label for="country-select" class="text-sm font-medium text-gray-400">Select Server Location:</label>
+                            <select id="country-select" class="w-full px-4 py-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="us">United States</option>
+                                <option value="ca">Canada</option>
+                                <option value="gb">United Kingdom</option>
+                                <option value="de">Germany</option>
+                                <option value="fr">France</option>
+                                <option value="jp">Japan</option>
+                                <option value="au">Australia</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col items-start space-y-2">
+                            <label for="protocol-select" class="text-sm font-medium text-gray-400">Select Protocol:</label>
+                            <select id="protocol-select" class="w-full px-4 py-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="openvpn">OpenVPN</option>
+                                <option value="wireguard">WireGuard</option>
+                                <option value="ikev2">IKEv2</option>
+                            </select>
+                        </div>
+                        <div class="flex flex-col items-start space-y-2">
+                            <label for="api-version" class="text-sm font-medium text-gray-400">API Version:</label>
+                            <select id="api-version" class="w-full px-4 py-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="v2.1.3">v2.1.3 (Stable)</option>
+                                <option value="v3.0.0-beta">v3.0.0 (Beta)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="generate-button" class="w-full px-6 py-3 font-semibold text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">
+                        Generate API Key
+                    </button>
+                    <div id="result-area" class="mt-8 hidden space-y-4">
+                        <div id="final-results" class="space-y-4">
+                            <div id="api-key-container" class="space-y-2">
+                                <label class="text-sm font-medium text-gray-400">Your API Key:</label>
+                                <div class="flex items-center rounded-lg overflow-hidden">
+                                    <input id="api-key-input" type="text" readonly class="flex-grow px-4 py-2 text-sm text-gray-200 result-box focus:outline-none">
+                                    <button id="copy-api-button" class="px-4 py-2 text-white text-sm font-semibold copy-btn transition-colors">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="residential-path-container" class="space-y-2">
+                                <label class="text-sm font-medium text-gray-400">Residential Path:</label>
+                                <div class="flex items-center rounded-lg overflow-hidden">
+                                    <input id="residential-path-input" type="text" readonly class="flex-grow px-4 py-2 text-sm text-gray-200 result-box focus:outline-none">
+                                    <button id="copy-path-button" class="px-4 py-2 text-white text-sm font-semibold copy-btn transition-colors">
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Section -->
+            <div class="w-full flex flex-col gap-6 mt-12">
+                <h2 class="text-3xl font-extrabold text-white text-center mb-4">Pricing Plans</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Pricing Card 1 -->
+                    <div class="card rounded-xl p-6 flex flex-col items-center opacity-50 cursor-not-allowed">
+                        <h3 class="text-2xl font-bold mb-2 text-gray-400">Free</h3>
+                        <p class="text-5xl font-extrabold text-red-500 mb-4">
+                            Deprecated
+                        </p>
+                        <p class="text-sm text-gray-400 mb-4">No longer available for new users</p>
+                        <ul class="text-sm text-gray-400 text-left mb-6 w-full space-y-2">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-red-500">❌</span>
+                                <span>Limited Access</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-red-500">❌</span>
+                                <span>1GB Monthly Data</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-red-500">❌</span>
+                                <span>OpenVPN Protocol Only</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-gray-500 text-white py-3 rounded-lg font-bold" disabled>Not Available</button>
+                    </div>
+
+                    <!-- Pricing Card 2 -->
+                    <div class="card rounded-xl p-6 flex flex-col items-center border-4 border-blue-500 ring-2 ring-blue-500">
+                        <h3 class="text-2xl font-bold mb-2">Complete</h3>
+                        <p class="text-5xl font-extrabold text-white mb-4">
+                            $43<span class="text-base text-gray-400">/mo</span>
+                        </p>
+                        <p class="text-sm text-gray-400 mb-4">Full API Key</p>
+                        <ul class="text-sm text-gray-400 text-left mb-6 w-full space-y-2">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500">✔️</span>
+                                <span>Unlimited Access</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500">✔️</span>
+                                <span>60GB Monthly Data</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500">✔️</span>
+                                <span>All Protocols</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-green-500 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">Choose Plan</button>
+                    </div>
+
+                    <!-- Pricing Card 3 -->
+                    <div class="card rounded-xl p-6 flex flex-col items-center">
+                        <h3 class="text-2xl font-bold mb-2">Premium</h3>
+                        <p class="text-5xl font-extrabold text-purple-400 mb-4">
+                            $99<span class="text-base text-gray-400">/mo</span>
+                        </p>
+                        <p class="text-sm text-gray-400 mb-4">API Key & Dedicated Proxy</p>
+                        <ul class="text-sm text-gray-400 text-left mb-6 w-full space-y-2">
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500">✔️</span>
+                                <span>Everything in Complete Plan</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500">✔️</span>
+                                <span>Unlimited Data</span>
+                            </li>
+                            <li class="flex items-center space-x-2">
+                                <span class="text-green-500">✔️</span>
+                                <span>24/7 Dedicated Support</span>
+                            </li>
+                        </ul>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors">Choose Plan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Copy Success Modal -->
+    <div id="copy-modal" class="modal">
+        <div class="modal-content text-center">
+            <svg class="mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#26a245" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 0 1-20 0v-1"/>
+                <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/>
+                <path d="M9 12l2 2 4-4"/>
+            </svg>
+            <h3 class="text-xl font-bold text-white mb-2">Copied!</h3>
+            <p class="text-sm text-gray-400">The content has been successfully copied to your clipboard.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            const mainContentWrapper = document.getElementById('main-content-wrapper');
+            const mainContent = document.getElementById('main-content');
+            
+            // Show loading screen for 5 seconds
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                // Use another timeout to ensure transition finishes before hiding
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    mainContentWrapper.classList.remove('hidden');
+                    mainContent.classList.remove('hidden');
+                }, 500); // 500ms for CSS transition
+            }, 5000);
+
+            const generateButton = document.getElementById('generate-button');
+            const resultArea = document.getElementById('result-area');
+            const logBox = document.querySelector('.log-box');
+            const finalResults = document.getElementById('final-results');
+            const apiKeyInput = document.getElementById('api-key-input');
+            const residentialPathInput = document.getElementById('residential-path-input');
+            const countrySelect = document.getElementById('country-select');
+            const copyApiButton = document.getElementById('copy-api-button');
+            const copyPathButton = document.getElementById('copy-path-button');
+            const copyModal = document.getElementById('copy-modal');
+            const trafficGraph = document.getElementById('traffic-graph');
+
+            // Function to generate a fake API key
+            function generateFakeKey() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                for (let i = 0; i < 48; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return `resivpn_key_${result}`;
+            }
+
+            // Function to generate a fake residential path
+            function generateFakeResidentialPath(countryCode) {
+                const cities = {
+                    'us': ['nyc', 'la', 'chi', 'mia'],
+                    'ca': ['tor', 'van', 'mon'],
+                    'gb': ['lon', 'man', 'edi'],
+                    'de': ['ber', 'mun', 'fra'],
+                    'fr': ['par', 'mar', 'lyo'],
+                    'jp': ['tok', 'osa', 'kyo'],
+                    'au': ['syd', 'mel', 'bri'],
+                };
+                const city = cities[countryCode][Math.floor(Math.random() * cities[countryCode].length)];
+                const routerId = Math.floor(100000 + Math.random() * 900000); // 6-digit number
+                return `https://api.resivpn.com/residential/${countryCode}/${city}/node-${routerId}/`;
+            }
+
+            // Function to add a message to the log
+            function addLog(message, isError = false) {
+                const p = document.createElement('p');
+                p.textContent = `[${new Date().toLocaleTimeString()}] > ${message}`;
+                p.classList.add(isError ? 'text-red-400' : 'text-green-500');
+                logBox.appendChild(p);
+                logBox.scrollTop = logBox.scrollHeight;
+            }
+
+            // Function to show the copy success modal
+            function showCopyModal() {
+                copyModal.style.display = 'flex';
+                setTimeout(() => {
+                    copyModal.style.display = 'none';
+                }, 2000);
+            }
+
+            // Copy function
+            function copyToClipboard(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCopyModal();
+                } catch (err) {
+                    console.error('Failed to copy', err);
+                }
+                document.body.removeChild(textArea);
+            }
+
+            // Function to generate graph points
+            function generateGraphPoints() {
+                const points = [];
+                for (let i = 0; i <= 24; i++) {
+                    const y = 100 - (Math.random() * 20 + 40);
+                    points.push(`${i * 15},${y}`);
+                }
+                const pointsString = points.join(' ');
+                
+                const linePath = `M${pointsString}`;
+                const areaPath = `M${pointsString} L360,150 L0,150 Z`;
+
+                document.getElementById('traffic-path').setAttribute('d', linePath);
+                document.getElementById('traffic-area').setAttribute('d', areaPath);
+            }
+
+            // Listen for generate button click
+            generateButton.addEventListener('click', () => {
+                finalResults.classList.add('hidden');
+                resultArea.classList.remove('hidden');
+                logBox.innerHTML = '';
+                addLog('Client device ready.');
+
+                generateButton.disabled = true;
+                generateButton.textContent = 'Processing...';
+
+                setTimeout(() => {
+                    addLog('Starting automated generation process...');
+                    setTimeout(() => {
+                        addLog('Verifying account status and service plan...');
+                        setTimeout(() => {
+                            addLog('Connecting to Central Data Exchange (CDX) in Frankfurt...');
+                            setTimeout(() => {
+                                addLog('Locating nearest Residential Data Collector (RDC)...');
+                                setTimeout(() => {
+                                    addLog('Checking hash integrity and setting up connection protocol...');
+                                    setTimeout(() => {
+                                        addLog('Generating secure API key...');
+                                        const selectedCountry = countrySelect.value;
+                                        const apiKey = generateFakeKey();
+                                        const residentialPath = generateFakeResidentialPath(selectedCountry);
+                                        
+                                        apiKeyInput.value = apiKey;
+                                        residentialPathInput.value = residentialPath;
+                                        
+                                        setTimeout(() => {
+                                            addLog('Successfully generated! Your API key and path are ready to use.');
+                                            finalResults.classList.remove('hidden');
+                                            generateButton.disabled = false;
+                                            generateButton.textContent = 'Generate API Key';
+                                        }, 1000);
+                                    }, 1500);
+                                }, 1500);
+                            }, 2000);
+                        }, 2000);
+                    }, 1000);
+                }, 1000);
+            });
+
+            // Listen for copy API key button click
+            copyApiButton.addEventListener('click', () => {
+                copyToClipboard(apiKeyInput.value);
+            });
+
+            // Listen for copy path button click
+            copyPathButton.addEventListener('click', () => {
+                copyToClipboard(residentialPathInput.value);
+            });
+
+            // Generate graph on page load
+            generateGraphPoints();
+        });
+    </script>
+</body>
+</html>
