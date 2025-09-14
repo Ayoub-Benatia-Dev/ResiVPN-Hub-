@@ -785,10 +785,10 @@
                 setTimeout(() => {
                     hideModal('auth-loading-modal');
                     showActionModal(
-                        'Payment Successful',
-                        'Your payment has been processed. A confirmation email with your new API key and details is on its way!'
+                        'Payment Failed',
+                        'Payment could not be completed. Please check your internet connection and try again.'
                     );
-                    addLog('Payment for new plan processed successfully!');
+                    addLog('Payment for new plan failed: Network timeout.', true);
                 }, 3000);
             });
 
