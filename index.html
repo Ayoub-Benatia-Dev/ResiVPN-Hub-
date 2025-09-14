@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ResiVPN Hub™ - Dashboard</title>
+    <title>ResiVPN Hub™ - لوحة التحكم</title>
     <!-- Include Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -119,83 +119,82 @@
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="spinner mb-4"></div>
-        <p class="text-xl font-semibold text-white">Loading Dashboard...</p>
+        <p class="text-xl font-semibold text-white">جارٍ تحميل لوحة التحكم...</p>
     </div>
 
     <!-- Navbar -->
     <nav class="container mx-auto flex items-center justify-between p-4 mb-8 card rounded-xl hidden" id="main-content-wrapper">
         <h1 class="text-2xl font-extrabold text-white">ResiVPN Hub™</h1>
-        <div class="flex space-x-4">
-            <button class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors">Login</button>
-            <button class="bg-gray-700 text-gray-200 px-6 py-2 rounded-full font-bold hover:bg-gray-600 transition-colors">Sign Up</button>
+        <div id="auth-buttons" class="flex space-x-4">
+            <!-- Auth buttons will be here dynamically -->
         </div>
     </nav>
 
     <!-- Main Content -->
     <main id="main-content" class="flex-grow flex flex-col items-center p-4 hidden">
         <div class="container mx-auto">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-2 leading-tight">Lightning Fast Residential VPN Networks</h2>
-            <p class="text-sm sm:text-base md:text-xl text-gray-400 text-center mb-10">Our automated system for generating high-performance residential VPN API keys.</p>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-2 leading-tight">شبكات VPN سكنية فائقة السرعة</h2>
+            <p class="text-sm sm:text-base md:text-xl text-gray-400 text-center mb-10">نظامنا الآلي لإنشاء مفاتيح API لشبكات VPN السكنية عالية الأداء.</p>
 
             <!-- Ad Banner -->
             <div class="bg-yellow-900 bg-opacity-30 text-yellow-300 p-4 rounded-lg text-center font-semibold mb-8 border border-yellow-700">
-                🚀 Upgrade to our Premium plan for unlimited data and 24/7 technical support!
+                🚀 ترقية لخطة Premium ديالنا للحصول على بيانات غير محدودة ودعم تقني 24/7!
             </div>
 
             <!-- Main Dashboard Card -->
             <div class="card rounded-2xl p-6 md:p-12 border border-gray-700 flex flex-col gap-6">
                 <!-- Dashboard Content -->
                 <div class="w-full flex flex-col gap-6">
-                    <h2 class="text-3xl font-extrabold text-white text-center mb-4">API Dashboard</h2>
+                    <h2 class="text-3xl font-extrabold text-white text-center mb-4">لوحة تحكم API</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         
                         <!-- Performance Metrics -->
                         <div class="card rounded-xl p-6">
-                            <h3 class="text-lg font-bold text-gray-300 mb-4">Performance Metrics</h3>
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">مقاييس الأداء</h3>
                             <div class="flex items-center justify-between">
                                 <div class="flex flex-col items-center">
-                                    <p class="text-2xl font-bold text-white"><span id="avg-latency">14</span> ms</p>
-                                    <p class="text-sm text-gray-400">Latency</p>
+                                    <p class="text-2xl font-bold text-white"><span id="avg-latency">0</span> ms</p>
+                                    <p class="text-sm text-gray-400">الكمون</p>
                                 </div>
                                 <div class="flex flex-col items-center">
-                                    <p class="text-2xl font-bold text-white"><span id="avg-throughput">1.2</span> Gbps</p>
-                                    <p class="text-sm text-gray-400">Throughput</p>
+                                    <p class="text-2xl font-bold text-white"><span id="avg-throughput">0</span> Gbps</p>
+                                    <p class="text-sm text-gray-400">الإنتاجية</p>
                                 </div>
                                 <div class="flex flex-col items-center">
-                                    <p class="text-2xl font-bold text-white"><span id="active-sessions">5,782</span></p>
-                                    <p class="text-sm text-gray-400">Active Sessions</p>
+                                    <p class="text-2xl font-bold text-white"><span id="active-sessions">0</span></p>
+                                    <p class="text-sm text-gray-400">الجلسات النشطة</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Resource Usage -->
                         <div class="card rounded-xl p-6">
-                            <h3 class="text-lg font-bold text-gray-300 mb-4">Resource Usage</h3>
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">استخدام الموارد</h3>
                             <div class="flex justify-around items-center">
                                 <div class="relative flex flex-col items-center">
-                                    <div class="pie-chart" style="background: conic-gradient(#58a6ff 0% 75%, #30363d 75% 100%); width: 100px; height: 100px; border-radius: 50%;"></div>
-                                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold text-white">75%</span>
-                                    <p class="text-sm text-gray-400 mt-2">CPU Usage</p>
+                                    <div class="pie-chart" id="cpu-pie" style="width: 100px; height: 100px; border-radius: 50%;"></div>
+                                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold text-white"><span id="cpu-usage">0</span>%</span>
+                                    <p class="text-sm text-gray-400 mt-2">استهلاك المعالج</p>
                                 </div>
                                 <div class="relative flex flex-col items-center">
-                                    <div class="pie-chart" style="background: conic-gradient(#26a245 0% 45%, #30363d 45% 100%); width: 100px; height: 100px; border-radius: 50%;"></div>
-                                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold text-white">45%</span>
-                                    <p class="text-sm text-gray-400 mt-2">Memory Usage</p>
+                                    <div class="pie-chart" id="mem-pie" style="width: 100px; height: 100px; border-radius: 50%;"></div>
+                                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold text-white"><span id="mem-usage">0</span>%</span>
+                                    <p class="text-sm text-gray-400 mt-2">استهلاك الذاكرة</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Connection Stats -->
                         <div class="card rounded-xl p-6">
-                            <h3 class="text-lg font-bold text-gray-300 mb-4">Connection Stats</h3>
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">إحصائيات الاتصال</h3>
                             <div class="space-y-4">
                                 <div>
-                                    <p class="text-2xl font-bold text-white"><span id="connected-users">5,782</span></p>
-                                    <p class="text-sm text-gray-400">Connected Users</p>
+                                    <p class="text-2xl font-bold text-white"><span id="connected-users">0</span></p>
+                                    <p class="text-sm text-gray-400">المستخدمين المتصلين</p>
                                 </div>
                                 <div>
-                                    <p class="text-2xl font-bold text-white"><span id="total-nodes">18,345</span></p>
-                                    <p class="text-sm text-gray-400">Available Nodes</p>
+                                    <p class="text-2xl font-bold text-white"><span id="total-nodes">0</span></p>
+                                    <p class="text-sm text-gray-400">العقد المتاحة</p>
                                 </div>
                             </div>
                         </div>
@@ -203,21 +202,21 @@
                         <!-- API Status -->
                         <div class="card rounded-xl p-6 flex flex-col justify-between">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-lg font-bold text-gray-300">API Gateway Status</h3>
+                                <h3 class="text-lg font-bold text-gray-300">حالة بوابة API</h3>
                                 <div class="flex items-center space-x-2">
                                     <span class="status-dot bg-green-500 rounded-full"></span>
-                                    <p class="text-lg font-bold text-green-400">Online</p>
+                                    <p class="text-lg font-bold text-green-400">متصل</p>
                                 </div>
                             </div>
                             <div class="space-y-2">
-                                <p class="text-sm text-gray-400">Network: <span class="text-white">v2.1.3-stable</span></p>
-                                <p class="text-sm text-gray-400">Uptime: <span class="text-white">73 days</span></p>
+                                <p class="text-sm text-gray-400">الشبكة: <span id="network-version" class="text-white">...</span></p>
+                                <p class="text-sm text-gray-400">مدة التشغيل: <span id="uptime" class="text-white">...</span></p>
                             </div>
                         </div>
 
                         <!-- Traffic Analysis -->
                         <div class="card rounded-xl p-6 md:col-span-2">
-                            <h3 class="text-lg font-bold text-gray-300 mb-4">Traffic Analysis</h3>
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">تحليل حركة المرور</h3>
                             <div class="relative w-full h-48">
                                 <svg id="traffic-graph" viewBox="0 0 400 150" class="w-full h-full">
                                     <defs>
@@ -234,8 +233,8 @@
 
                         <!-- Log Section -->
                         <div class="card rounded-xl p-6 md:col-span-2">
-                            <h3 class="text-lg font-bold text-gray-300 mb-4">Operation Log</h3>
-                            <div class="log-box px-4 py-4 rounded-lg text-sm h-72 overflow-y-auto">
+                            <h3 class="text-lg font-bold text-gray-300 mb-4">سجل العمليات</h3>
+                            <div class="log-box px-4 py-4 rounded-lg text-sm h-72 overflow-y-auto" id="log-container">
                                 <!-- Log messages will be added here dynamically -->
                             </div>
                         </div>
@@ -244,22 +243,22 @@
                 
                 <!-- API Generation Section -->
                 <div class="card rounded-xl p-6 space-y-6 mt-6">
-                    <h3 class="text-xl font-bold text-white border-b border-gray-700 pb-2 mb-4">Generate New API Key</h3>
+                    <h3 class="text-xl font-bold text-white border-b border-gray-700 pb-2 mb-4">إنشاء مفتاح API جديد</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="flex flex-col items-start space-y-2">
-                            <label for="country-select" class="text-sm font-medium text-gray-400">Select Server Location:</label>
+                            <label for="country-select" class="text-sm font-medium text-gray-400">اختر موقع الخادم:</label>
                             <select id="country-select" class="w-full px-4 py-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="us">United States</option>
-                                <option value="ca">Canada</option>
-                                <option value="gb">United Kingdom</option>
-                                <option value="de">Germany</option>
-                                <option value="fr">France</option>
-                                <option value="jp">Japan</option>
-                                <option value="au">Australia</option>
+                                <option value="us">الولايات المتحدة</option>
+                                <option value="ca">كندا</option>
+                                <option value="gb">المملكة المتحدة</option>
+                                <option value="de">ألمانيا</option>
+                                <option value="fr">فرنسا</option>
+                                <option value="jp">اليابان</option>
+                                <option value="au">أستراليا</option>
                             </select>
                         </div>
                         <div class="flex flex-col items-start space-y-2">
-                            <label for="protocol-select" class="text-sm font-medium text-gray-400">Select Protocol:</label>
+                            <label for="protocol-select" class="text-sm font-medium text-gray-400">اختر البروتوكول:</label>
                             <select id="protocol-select" class="w-full px-4 py-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                                 <option value="openvpn">OpenVPN</option>
                                 <option value="wireguard">WireGuard</option>
@@ -267,33 +266,33 @@
                             </select>
                         </div>
                         <div class="flex flex-col items-start space-y-2">
-                            <label for="api-version" class="text-sm font-medium text-gray-400">API Version:</label>
+                            <label for="api-version" class="text-sm font-medium text-gray-400">إصدار API:</label>
                             <select id="api-version" class="w-full px-4 py-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <option value="v2.1.3">v2.1.3 (Stable)</option>
-                                <option value="v3.0.0-beta">v3.0.0 (Beta)</option>
+                                <option value="v2.1.3">v2.1.3 (ثابت)</option>
+                                <option value="v3.0.0-beta">v3.0.0 (تجريبي)</option>
                             </select>
                         </div>
                     </div>
-                    <button id="generate-button" class="w-full px-6 py-3 font-semibold text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">
-                        Generate API Key
+                    <button id="generate-button" class="w-full px-6 py-3 font-semibold text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700" disabled>
+                        جارٍ التحقق من حالة المستخدم...
                     </button>
                     <div id="result-area" class="mt-8 hidden space-y-4">
                         <div id="final-results" class="space-y-4">
                             <div id="api-key-container" class="space-y-2">
-                                <label class="text-sm font-medium text-gray-400">Your API Key:</label>
+                                <label class="text-sm font-medium text-gray-400">مفتاح API الخاص بك:</label>
                                 <div class="flex items-center rounded-lg overflow-hidden">
                                     <input id="api-key-input" type="text" readonly class="flex-grow px-4 py-2 text-sm text-gray-200 result-box focus:outline-none">
                                     <button id="copy-api-button" class="px-4 py-2 text-white text-sm font-semibold copy-btn transition-colors">
-                                        Copy
+                                        نسخ
                                     </button>
                                 </div>
                             </div>
                             <div id="residential-path-container" class="space-y-2">
-                                <label class="text-sm font-medium text-gray-400">Residential Path:</label>
+                                <label class="text-sm font-medium text-gray-400">مسار السكن:</label>
                                 <div class="flex items-center rounded-lg overflow-hidden">
                                     <input id="residential-path-input" type="text" readonly class="flex-grow px-4 py-2 text-sm text-gray-200 result-box focus:outline-none">
                                     <button id="copy-path-button" class="px-4 py-2 text-white text-sm font-semibold copy-btn transition-colors">
-                                        Copy
+                                        نسخ
                                     </button>
                                 </div>
                             </div>
@@ -304,78 +303,78 @@
 
             <!-- Pricing Section -->
             <div class="w-full flex flex-col gap-6 mt-12">
-                <h2 class="text-3xl font-extrabold text-white text-center mb-4">Pricing Plans</h2>
+                <h2 class="text-3xl font-extrabold text-white text-center mb-4">خطط الأسعار</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Pricing Card 1 -->
                     <div class="card rounded-xl p-6 flex flex-col items-center opacity-50 cursor-not-allowed">
-                        <h3 class="text-2xl font-bold mb-2 text-gray-400">Free</h3>
+                        <h3 class="text-2xl font-bold mb-2 text-gray-400">مجاني</h3>
                         <p class="text-5xl font-extrabold text-red-500 mb-4">
-                            Deprecated
+                            متوقف
                         </p>
-                        <p class="text-sm text-gray-400 mb-4">No longer available for new users</p>
+                        <p class="text-sm text-gray-400 mb-4">لم يعد متاحًا للمستخدمين الجدد</p>
                         <ul class="text-sm text-gray-400 text-left mb-6 w-full space-y-2">
                             <li class="flex items-center space-x-2">
                                 <span class="text-red-500">❌</span>
-                                <span>Limited Access</span>
+                                <span>وصول محدود</span>
                             </li>
                             <li class="flex items-center space-x-2">
                                 <span class="text-red-500">❌</span>
-                                <span>1GB Monthly Data</span>
+                                <span>1 جيجابايت بيانات شهرية</span>
                             </li>
                             <li class="flex items-center space-x-2">
                                 <span class="text-red-500">❌</span>
-                                <span>OpenVPN Protocol Only</span>
+                                <span>بروتوكول OpenVPN فقط</span>
                             </li>
                         </ul>
-                        <button class="w-full bg-gray-500 text-white py-3 rounded-lg font-bold" disabled>Not Available</button>
+                        <button class="w-full bg-gray-500 text-white py-3 rounded-lg font-bold" disabled>غير متوفر</button>
                     </div>
 
                     <!-- Pricing Card 2 -->
                     <div class="card rounded-xl p-6 flex flex-col items-center border-4 border-blue-500 ring-2 ring-blue-500">
-                        <h3 class="text-2xl font-bold mb-2">Complete</h3>
+                        <h3 class="text-2xl font-bold mb-2">كامل</h3>
                         <p class="text-5xl font-extrabold text-white mb-4">
-                            $43<span class="text-base text-gray-400">/mo</span>
+                            $43<span class="text-base text-gray-400">/ش.</span>
                         </p>
-                        <p class="text-sm text-gray-400 mb-4">Full API Key</p>
+                        <p class="text-sm text-gray-400 mb-4">مفتاح API كامل</p>
                         <ul class="text-sm text-gray-400 text-left mb-6 w-full space-y-2">
                             <li class="flex items-center space-x-2">
                                 <span class="text-green-500">✔️</span>
-                                <span>Unlimited Access</span>
+                                <span>وصول غير محدود</span>
                             </li>
                             <li class="flex items-center space-x-2">
                                 <span class="text-green-500">✔️</span>
-                                <span>60GB Monthly Data</span>
+                                <span>60 جيجابايت بيانات شهرية</span>
                             </li>
                             <li class="flex items-center space-x-2">
                                 <span class="text-green-500">✔️</span>
-                                <span>All Protocols</span>
+                                <span>جميع البروتوكولات</span>
                             </li>
                         </ul>
-                        <button class="w-full bg-green-500 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">Choose Plan</button>
+                        <button class="w-full bg-green-500 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">اختر الخطة</button>
                     </div>
 
                     <!-- Pricing Card 3 -->
                     <div class="card rounded-xl p-6 flex flex-col items-center">
-                        <h3 class="text-2xl font-bold mb-2">Premium</h3>
+                        <h3 class="text-2xl font-bold mb-2">ممتاز</h3>
                         <p class="text-5xl font-extrabold text-purple-400 mb-4">
-                            $99<span class="text-base text-gray-400">/mo</span>
+                            $99<span class="text-base text-gray-400">/ش.</span>
                         </p>
-                        <p class="text-sm text-gray-400 mb-4">API Key & Dedicated Proxy</p>
+                        <p class="text-sm text-gray-400 mb-4">مفتاح API ووكيل مخصص</p>
                         <ul class="text-sm text-gray-400 text-left mb-6 w-full space-y-2">
                             <li class="flex items-center space-x-2">
                                 <span class="text-green-500">✔️</span>
-                                <span>Everything in Complete Plan</span>
+                                <span>كل شيء في خطة كاملة</span>
                             </li>
                             <li class="flex items-center space-x-2">
                                 <span class="text-green-500">✔️</span>
-                                <span>Unlimited Data</span>
+                                <span>بيانات غير محدودة</span>
                             </li>
                             <li class="flex items-center space-x-2">
                                 <span class="text-green-500">✔️</span>
-                                <span>24/7 Dedicated Support</span>
+                                <span>دعم فني مخصص 24/7</span>
                             </li>
                         </ul>
-                        <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors">Choose Plan</button>
+                        <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors">اختر الخطة</button>
                     </div>
                 </div>
             </div>
@@ -390,170 +389,353 @@
                 <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/>
                 <path d="M9 12l2 2 4-4"/>
             </svg>
-            <h3 class="text-xl font-bold text-white mb-2">Copied!</h3>
-            <p class="text-sm text-gray-400">The content has been successfully copied to your clipboard.</p>
+            <h3 class="text-xl font-bold text-white mb-2">تم النسخ!</h3>
+            <p class="text-sm text-gray-400">تم نسخ المحتوى بنجاح إلى الحافظة.</p>
         </div>
     </div>
+    
+    <!-- Firebase SDK Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, addDoc, collection, onSnapshot, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loadingScreen = document.getElementById('loading-screen');
-            const mainContentWrapper = document.getElementById('main-content-wrapper');
-            const mainContent = document.getElementById('main-content');
+        // Firebase Configuration - DO NOT CHANGE
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : '';
+        
+        // Initialize Firebase
+        let app, auth, db;
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+        } catch (e) {
+            console.error("Error initializing Firebase:", e);
+        }
+
+        // Global state
+        let isAuthReady = false;
+        let userId = null;
+        let hasApiKey = false;
+        let apiKeyDocId = null;
+
+        // UI elements
+        const loadingScreen = document.getElementById('loading-screen');
+        const mainContentWrapper = document.getElementById('main-content-wrapper');
+        const mainContent = document.getElementById('main-content');
+        const authButtonsContainer = document.getElementById('auth-buttons');
+        const generateButton = document.getElementById('generate-button');
+        const resultArea = document.getElementById('result-area');
+        const finalResults = document.getElementById('final-results');
+        const apiKeyInput = document.getElementById('api-key-input');
+        const residentialPathInput = document.getElementById('residential-path-input');
+        const countrySelect = document.getElementById('country-select');
+        const protocolSelect = document.getElementById('protocol-select');
+        const apiVersionSelect = document.getElementById('api-version');
+        const copyApiButton = document.getElementById('copy-api-button');
+        const copyPathButton = document.getElementById('copy-path-button');
+        const copyModal = document.getElementById('copy-modal');
+        const logBox = document.getElementById('log-container');
+        const trafficGraph = document.getElementById('traffic-graph');
+        const avgLatencyEl = document.getElementById('avg-latency');
+        const avgThroughputEl = document.getElementById('avg-throughput');
+        const activeSessionsEl = document.getElementById('active-sessions');
+        const cpuUsageEl = document.getElementById('cpu-usage');
+        const memUsageEl = document.getElementById('mem-usage');
+        const connectedUsersEl = document.getElementById('connected-users');
+        const totalNodesEl = document.getElementById('total-nodes');
+        const networkVersionEl = document.getElementById('network-version');
+        const uptimeEl = document.getElementById('uptime');
+        const cpuPieEl = document.getElementById('cpu-pie');
+        const memPieEl = document.getElementById('mem-pie');
+
+        // Function to add a message to the log
+        function addLog(message, isError = false) {
+            const p = document.createElement('p');
+            p.textContent = `[${new Date().toLocaleTimeString()}] > ${message}`;
+            p.classList.add(isError ? 'text-red-400' : 'text-green-500');
+            logBox.appendChild(p);
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        // Function to update the pie charts
+        function updatePieChart(element, percentage, color) {
+            element.style.background = `conic-gradient(${color} 0% ${percentage}%, #30363d ${percentage}% 100%)`;
+        }
+
+        // Function to generate a fake API key
+        function generateFakeKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let result = '';
+            for (let i = 0; i < 48; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return `resivpn_key_${result}`;
+        }
+
+        // Function to generate a fake residential path
+        function generateFakeResidentialPath(countryCode, protocol) {
+            const cities = {
+                'us': ['nyc', 'la', 'chi', 'mia'],
+                'ca': ['tor', 'van', 'mon'],
+                'gb': ['lon', 'man', 'edi'],
+                'de': ['ber', 'mun', 'fra'],
+                'fr': ['par', 'mar', 'lyo'],
+                'jp': ['tok', 'osa', 'kyo'],
+                'au': ['syd', 'mel', 'bri'],
+            };
+            const city = cities[countryCode][Math.floor(Math.random() * cities[countryCode].length)];
+            const routerId = Math.floor(100000 + Math.random() * 900000); // 6-digit number
+            return `https://api.resivpn.com/${protocol}/${countryCode}/${city}/node-${routerId}/`;
+        }
+
+        // Function to show the copy success modal
+        function showCopyModal() {
+            copyModal.style.display = 'flex';
+            setTimeout(() => {
+                copyModal.style.display = 'none';
+            }, 2000);
+        }
+
+        // Copy function
+        function copyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showCopyModal();
+            } catch (err) {
+                console.error('Failed to copy', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Function to generate graph points
+        function generateGraphPoints() {
+            const points = [];
+            for (let i = 0; i <= 24; i++) {
+                const y = 100 - (Math.random() * 20 + 40);
+                points.push(`${i * 15},${y}`);
+            }
+            const pointsString = points.join(' ');
             
-            // Show loading screen for 5 seconds
+            const linePath = `M${pointsString}`;
+            const areaPath = `M${pointsString} L360,150 L0,150 Z`;
+
+            document.getElementById('traffic-path').setAttribute('d', linePath);
+            document.getElementById('traffic-area').setAttribute('d', areaPath);
+        }
+
+        // Authentication State Listener
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+                isAuthReady = true;
+                const userDocRef = doc(db, `artifacts/${appId}/users/${userId}/api_keys/my_key`);
+
+                // Check for existing API key
+                try {
+                    const docSnap = await getDoc(userDocRef);
+                    if (docSnap.exists()) {
+                        hasApiKey = true;
+                        const data = docSnap.data();
+                        apiKeyInput.value = data.key;
+                        residentialPathInput.value = data.path;
+                        resultArea.classList.remove('hidden');
+                        finalResults.classList.remove('hidden');
+                        addLog('مفتاح API الخاص بك تم استرجاعه من قاعدة البيانات.', false);
+                    } else {
+                        hasApiKey = false;
+                        addLog('لم يتم العثور على مفتاح API. قم بإنشاء واحد للبدء.', false);
+                    }
+                } catch (e) {
+                    addLog('خطأ في استرجاع مفتاح API: ' + e.message, true);
+                    console.error("Error fetching API key:", e);
+                }
+                
+                // Update UI for logged-in user
+                authButtonsContainer.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-400">معرف المستخدم:</span>
+                        <span class="text-white text-sm font-semibold">${userId}</span>
+                    </div>
+                    <button id="logout-button" class="bg-red-600 text-white px-6 py-2 rounded-full font-bold hover:bg-red-700 transition-colors">تسجيل الخروج</button>
+                `;
+                document.getElementById('logout-button').addEventListener('click', async () => {
+                    await signOut(auth);
+                    addLog('تم تسجيل الخروج بنجاح.');
+                    location.reload(); // Reload to reset state
+                });
+                
+                generateButton.textContent = hasApiKey ? 'إعادة إنشاء مفتاح API' : 'إنشاء مفتاح API';
+                generateButton.disabled = false;
+                addLog('أنت مسجل الدخول!');
+
+            } else {
+                // Not logged in
+                isAuthReady = true;
+                userId = null;
+                authButtonsContainer.innerHTML = `
+                    <button id="login-button" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors">تسجيل الدخول</button>
+                `;
+                document.getElementById('login-button').addEventListener('click', async () => {
+                    try {
+                        await signInAnonymously(auth);
+                    } catch (e) {
+                        console.error("Anonymous sign-in failed:", e);
+                    }
+                });
+                generateButton.textContent = 'إنشاء مفتاح API';
+                generateButton.disabled = false;
+            }
+
+            // Hide loading screen after auth state is ready
             setTimeout(() => {
                 loadingScreen.classList.add('hidden');
-                // Use another timeout to ensure transition finishes before hiding
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     mainContentWrapper.classList.remove('hidden');
                     mainContent.classList.remove('hidden');
                 }, 500); // 500ms for CSS transition
-            }, 5000);
-
-            const generateButton = document.getElementById('generate-button');
-            const resultArea = document.getElementById('result-area');
-            const logBox = document.querySelector('.log-box');
-            const finalResults = document.getElementById('final-results');
-            const apiKeyInput = document.getElementById('api-key-input');
-            const residentialPathInput = document.getElementById('residential-path-input');
-            const countrySelect = document.getElementById('country-select');
-            const copyApiButton = document.getElementById('copy-api-button');
-            const copyPathButton = document.getElementById('copy-path-button');
-            const copyModal = document.getElementById('copy-modal');
-            const trafficGraph = document.getElementById('traffic-graph');
-
-            // Function to generate a fake API key
-            function generateFakeKey() {
-                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-                let result = '';
-                for (let i = 0; i < 48; i++) {
-                    result += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-                return `resivpn_key_${result}`;
-            }
-
-            // Function to generate a fake residential path
-            function generateFakeResidentialPath(countryCode) {
-                const cities = {
-                    'us': ['nyc', 'la', 'chi', 'mia'],
-                    'ca': ['tor', 'van', 'mon'],
-                    'gb': ['lon', 'man', 'edi'],
-                    'de': ['ber', 'mun', 'fra'],
-                    'fr': ['par', 'mar', 'lyo'],
-                    'jp': ['tok', 'osa', 'kyo'],
-                    'au': ['syd', 'mel', 'bri'],
-                };
-                const city = cities[countryCode][Math.floor(Math.random() * cities[countryCode].length)];
-                const routerId = Math.floor(100000 + Math.random() * 900000); // 6-digit number
-                return `https://api.resivpn.com/residential/${countryCode}/${city}/node-${routerId}/`;
-            }
-
-            // Function to add a message to the log
-            function addLog(message, isError = false) {
-                const p = document.createElement('p');
-                p.textContent = `[${new Date().toLocaleTimeString()}] > ${message}`;
-                p.classList.add(isError ? 'text-red-400' : 'text-green-500');
-                logBox.appendChild(p);
-                logBox.scrollTop = logBox.scrollHeight;
-            }
-
-            // Function to show the copy success modal
-            function showCopyModal() {
-                copyModal.style.display = 'flex';
-                setTimeout(() => {
-                    copyModal.style.display = 'none';
-                }, 2000);
-            }
-
-            // Copy function
-            function copyToClipboard(text) {
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    showCopyModal();
-                } catch (err) {
-                    console.error('Failed to copy', err);
-                }
-                document.body.removeChild(textArea);
-            }
-
-            // Function to generate graph points
-            function generateGraphPoints() {
-                const points = [];
-                for (let i = 0; i <= 24; i++) {
-                    const y = 100 - (Math.random() * 20 + 40);
-                    points.push(`${i * 15},${y}`);
-                }
-                const pointsString = points.join(' ');
-                
-                const linePath = `M${pointsString}`;
-                const areaPath = `M${pointsString} L360,150 L0,150 Z`;
-
-                document.getElementById('traffic-path').setAttribute('d', linePath);
-                document.getElementById('traffic-area').setAttribute('d', areaPath);
-            }
-
-            // Listen for generate button click
-            generateButton.addEventListener('click', () => {
-                finalResults.classList.add('hidden');
-                resultArea.classList.remove('hidden');
-                logBox.innerHTML = '';
-                addLog('Client device ready.');
-
-                generateButton.disabled = true;
-                generateButton.textContent = 'Processing...';
-
-                setTimeout(() => {
-                    addLog('Starting automated generation process...');
-                    setTimeout(() => {
-                        addLog('Verifying account status and service plan...');
-                        setTimeout(() => {
-                            addLog('Connecting to Central Data Exchange (CDX) in Frankfurt...');
-                            setTimeout(() => {
-                                addLog('Locating nearest Residential Data Collector (RDC)...');
-                                setTimeout(() => {
-                                    addLog('Checking hash integrity and setting up connection protocol...');
-                                    setTimeout(() => {
-                                        addLog('Generating secure API key...');
-                                        const selectedCountry = countrySelect.value;
-                                        const apiKey = generateFakeKey();
-                                        const residentialPath = generateFakeResidentialPath(selectedCountry);
-                                        
-                                        apiKeyInput.value = apiKey;
-                                        residentialPathInput.value = residentialPath;
-                                        
-                                        setTimeout(() => {
-                                            addLog('Successfully generated! Your API key and path are ready to use.');
-                                            finalResults.classList.remove('hidden');
-                                            generateButton.disabled = false;
-                                            generateButton.textContent = 'Generate API Key';
-                                        }, 1000);
-                                    }, 1500);
-                                }, 1500);
-                            }, 2000);
-                        }, 2000);
-                    }, 1000);
-                }, 1000);
-            });
-
-            // Listen for copy API key button click
-            copyApiButton.addEventListener('click', () => {
-                copyToClipboard(apiKeyInput.value);
-            });
-
-            // Listen for copy path button click
-            copyPathButton.addEventListener('click', () => {
-                copyToClipboard(residentialPathInput.value);
-            });
-
-            // Generate graph on page load
-            generateGraphPoints();
+            }, 1000);
         });
+
+        // Real-time listener for global metrics
+        const metricsDocRef = doc(db, `artifacts/${appId}/public/data/system_metrics/dashboard_data`);
+        onSnapshot(metricsDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                avgLatencyEl.textContent = data.latency;
+                avgThroughputEl.textContent = data.throughput;
+                activeSessionsEl.textContent = data.activeSessions;
+                connectedUsersEl.textContent = data.connectedUsers;
+                totalNodesEl.textContent = data.totalNodes;
+                networkVersionEl.textContent = data.networkVersion;
+                uptimeEl.textContent = data.uptime;
+                cpuUsageEl.textContent = data.cpuUsage;
+                memUsageEl.textContent = data.memoryUsage;
+                updatePieChart(cpuPieEl, data.cpuUsage, '#58a6ff');
+                updatePieChart(memPieEl, data.memoryUsage, '#26a245');
+                addLog('تم تحديث المقاييس في الوقت الفعلي.');
+            } else {
+                addLog('لا توجد مقاييس متوفرة.', true);
+            }
+        }, (error) => {
+            console.error("Error fetching metrics:", error);
+        });
+
+        // Real-time listener for logs
+        const logColRef = collection(db, `artifacts/${appId}/public/data/system_logs/log_entries`);
+        onSnapshot(logColRef, (snapshot) => {
+            logBox.innerHTML = '';
+            snapshot.docChanges().forEach(change => {
+                const data = change.doc.data();
+                const p = document.createElement('p');
+                const time = new Date(data.timestamp.seconds * 1000).toLocaleTimeString();
+                p.textContent = `[${time}] > ${data.message}`;
+                p.classList.add(data.isError ? 'text-red-400' : 'text-green-500');
+                logBox.appendChild(p);
+            });
+            logBox.scrollTop = logBox.scrollHeight;
+        }, (error) => {
+            console.error("Error fetching logs:", error);
+        });
+        
+        // Listen for generate button click
+        generateButton.addEventListener('click', async () => {
+            if (!userId) {
+                addLog('خطأ: أنت غير مسجل الدخول. قم بتسجيل الدخول أولاً.', true);
+                return;
+            }
+
+            // Disable button and clear results
+            generateButton.disabled = true;
+            generateButton.textContent = 'جارٍ المعالجة...';
+            finalResults.classList.add('hidden');
+            resultArea.classList.remove('hidden');
+            logBox.innerHTML = '';
+            addLog('جهاز العميل جاهز.');
+
+            const country = countrySelect.value;
+            const protocol = protocolSelect.value;
+            const apiKey = generateFakeKey();
+            const residentialPath = generateFakeResidentialPath(country, protocol);
+            const userDocRef = doc(db, `artifacts/${appId}/users/${userId}/api_keys/my_key`);
+
+            try {
+                // Add a log entry for the process
+                await addDoc(collection(db, `artifacts/${appId}/public/data/system_logs/log_entries`), {
+                    timestamp: serverTimestamp(),
+                    message: `بدء عملية إنشاء مفتاح API للمستخدم ${userId}.`,
+                    isError: false
+                });
+
+                // Simulate processing steps
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                addLog('التحقق من حالة الحساب وخطة الخدمة...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                addLog('الاتصال بمركز تبادل البيانات (CDX) في فرانكفورت...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                addLog('تحديد موقع أقرب مجمع بيانات سكني (RDC)...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                addLog('التحقق من سلامة التجزئة وإعداد بروتوكول الاتصال...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                addLog('توليد مفتاح API آمن...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Save the key to Firestore
+                await setDoc(userDocRef, {
+                    key: apiKey,
+                    path: residentialPath,
+                    country: country,
+                    protocol: protocol,
+                    createdAt: serverTimestamp()
+                });
+
+                // Update the UI with the new key and path
+                apiKeyInput.value = apiKey;
+                residentialPathInput.value = residentialPath;
+                finalResults.classList.remove('hidden');
+                addLog('تم الإنشاء بنجاح! مفتاح API الخاص بك والمسار جاهزان للاستخدام.');
+                
+                // Add success log
+                await addDoc(collection(db, `artifacts/${appId}/public/data/system_logs/log_entries`), {
+                    timestamp: serverTimestamp(),
+                    message: `تم إنشاء مفتاح API جديد بنجاح للمستخدم ${userId}.`,
+                    isError: false
+                });
+
+            } catch (e) {
+                addLog('فشل في إنشاء مفتاح API: ' + e.message, true);
+                console.error("Error generating API key:", e);
+                 // Add error log
+                await addDoc(collection(db, `artifacts/${appId}/public/data/system_logs/log_entries`), {
+                    timestamp: serverTimestamp(),
+                    message: `فشل في إنشاء مفتاح API للمستخدم ${userId}: ${e.message}`,
+                    isError: true
+                });
+            } finally {
+                generateButton.disabled = false;
+                generateButton.textContent = 'إنشاء مفتاح API';
+            }
+        });
+
+        // Listen for copy API key button click
+        copyApiButton.addEventListener('click', () => {
+            copyToClipboard(apiKeyInput.value);
+        });
+
+        // Listen for copy path button click
+        copyPathButton.addEventListener('click', () => {
+            copyToClipboard(residentialPathInput.value);
+        });
+
+        // Generate graph on page load
+        generateGraphPoints();
     </script>
 </body>
 </html>
