@@ -331,7 +331,7 @@
                     </div>
 
                     <!-- Pricing Card 2 -->
-                    <div class="card rounded-xl p-6 flex flex-col items-center border-4 border-blue-500 ring-2 ring-blue-500">
+                    <div id="complete-card" class="card rounded-xl p-6 flex flex-col items-center border-4 border-blue-500 ring-2 ring-blue-500">
                         <h3 class="text-2xl font-bold mb-2">Complete</h3>
                         <p class="text-5xl font-extrabold text-white mb-4">
                             $43<span class="text-base text-gray-400">/mo</span>
@@ -355,7 +355,7 @@
                     </div>
 
                     <!-- Pricing Card 3 -->
-                    <div class="card rounded-xl p-6 flex flex-col items-center">
+                    <div id="premium-card" class="card rounded-xl p-6 flex flex-col items-center">
                         <h3 class="text-2xl font-bold mb-2">Premium</h3>
                         <p class="text-5xl font-extrabold text-purple-400 mb-4">
                             $99<span class="text-base text-gray-400">/mo</span>
@@ -412,6 +412,36 @@
             <p class="text-sm text-gray-400">Please wait while we authenticate your request.</p>
         </div>
     </div>
+    
+    <!-- Plan Details Modal -->
+    <div id="plan-details-modal" class="modal">
+        <div class="modal-content text-left">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="plan-details-title" class="text-xl font-bold text-white"></h3>
+                <span id="plan-details-price" class="text-2xl font-extrabold text-blue-400"></span>
+            </div>
+            <p id="plan-details-description" class="text-sm text-gray-400 mb-6"></p>
+            <ul id="plan-details-features" class="text-sm text-gray-400 text-left mb-6 w-full space-y-2"></ul>
+            <button id="checkout-btn" class="w-full bg-green-500 text-white py-3 rounded-lg font-bold hover:bg-green-600 transition-colors">Continue to Payment</button>
+            <button onclick="hideModal('plan-details-modal')" class="w-full mt-2 bg-gray-700 text-white py-3 rounded-lg font-bold hover:bg-gray-600 transition-colors">Go Back</button>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="modal">
+        <div class="modal-content text-left">
+            <h3 class="text-2xl font-bold text-white text-center mb-6">Payment Gateway</h3>
+            <div class="space-y-4">
+                <input type="text" placeholder="Card Number" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500">
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="MM/YY" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500">
+                    <input type="text" placeholder="CVC" class="w-full px-4 py-2 bg-gray-800 text-white rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500">
+                </div>
+                <button id="pay-now-btn" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors">Pay Now</button>
+                <button onclick="hideModal('payment-modal')" class="w-full mt-2 bg-gray-700 text-white py-3 rounded-lg font-bold hover:bg-gray-600 transition-colors">Cancel</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Copy Success Modal -->
     <div id="copy-modal" class="modal">
@@ -448,6 +478,76 @@
         function hideModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
+
+        // Plan data for dynamic modal content
+        const plans = {
+            complete: {
+                title: 'Complete Plan',
+                price: '$43/mo',
+                description: 'Unlock our full suite of tools and a robust network for all your needs.',
+                features: [
+                    'Unlimited Access',
+                    '60GB Monthly Data',
+                    'All Protocols'
+                ]
+            },
+            premium: {
+                title: 'Premium Plan',
+                price: '$99/mo',
+                description: 'Experience unparalleled performance with dedicated resources and priority support.',
+                features: [
+                    'Everything in Complete Plan',
+                    'Unlimited Data',
+                    '24/7 Dedicated Support'
+                ]
+            }
+        };
+
+        // Function to show the plan details modal
+        function showPlanDetailsModal(planId) {
+            const plan = plans[planId];
+            if (!plan) return;
+
+            const modal = document.getElementById('plan-details-modal');
+            document.getElementById('plan-details-title').textContent = plan.title;
+            document.getElementById('plan-details-price').textContent = plan.price;
+            document.getElementById('plan-details-description').textContent = plan.description;
+            
+            const featuresList = document.getElementById('plan-details-features');
+            featuresList.innerHTML = '';
+            plan.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.className = 'flex items-center space-x-2';
+                li.innerHTML = `<span class="text-green-500">✔️</span><span>${feature}</span>`;
+                featuresList.appendChild(li);
+            });
+
+            modal.style.display = 'flex';
+
+            // Re-attach event listener to the checkout button for this specific plan
+            const checkoutBtn = document.getElementById('checkout-btn');
+            checkoutBtn.onclick = () => {
+                hideModal('plan-details-modal');
+                showLoadingModal('Processing Your Order...');
+                setTimeout(() => {
+                    hideModal('auth-loading-modal');
+                    showModal('payment-modal');
+                }, 2000);
+            };
+        }
+
+        // Function to show a payment modal
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        // Function to show a generic loading modal
+        function showLoadingModal(message) {
+            const modal = document.getElementById('auth-loading-modal');
+            document.getElementById('auth-loading-modal').querySelector('h3').textContent = message;
+            modal.style.display = 'flex';
+        }
+
 
         document.addEventListener('DOMContentLoaded', () => {
             const loadingScreen = document.getElementById('loading-screen');
@@ -489,13 +589,13 @@
             const emailInput = document.getElementById('email-input');
             const passwordInput = document.getElementById('password-input');
             const switchAuthLink = document.getElementById('switch-auth-link');
+            const payNowBtn = document.getElementById('pay-now-btn');
 
             // Function to show login/signup form
             function showAuthForm(isLogin) {
                 authForm.classList.remove('hidden');
                 formTitle.textContent = isLogin ? 'Log In' : 'Sign Up';
                 submitAuthBtn.textContent = isLogin ? 'Log In' : 'Create Account';
-                switchAuthLink.textContent = isLogin ? 'Sign Up' : 'Log In';
                 const switchText = document.querySelector('#auth-form p');
                 switchText.innerHTML = isLogin ? `Don't have an account? <a href="#" id="switch-auth-link" class="text-blue-500 hover:underline">Sign Up</a>` : `Already have an account? <a href="#" id="switch-auth-link" class="text-blue-500 hover:underline">Log In</a>`;
                 // Reset inputs
@@ -674,12 +774,22 @@
 
             });
 
-            completeBtn.addEventListener('click', () => {
-                showActionModal('Plan Selection (Simulated)', 'Thank you for choosing the Complete plan! A checkout process would begin here.');
-            });
+            // New event listeners for plan buttons
+            completeBtn.addEventListener('click', () => showPlanDetailsModal('complete'));
+            premiumBtn.addEventListener('click', () => showPlanDetailsModal('premium'));
 
-            premiumBtn.addEventListener('click', () => {
-                showActionModal('Plan Selection (Simulated)', 'Congratulations on selecting the Premium plan! Redirecting you to the secure checkout page.');
+            // Fake payment process
+            payNowBtn.addEventListener('click', () => {
+                hideModal('payment-modal');
+                showLoadingModal('Processing Payment...');
+                setTimeout(() => {
+                    hideModal('auth-loading-modal');
+                    showActionModal(
+                        'Payment Successful',
+                        'Your payment has been processed. A confirmation email with your new API key and details is on its way!'
+                    );
+                    addLog('Payment for new plan processed successfully!');
+                }, 3000);
             });
 
             // Generate graph on page load
